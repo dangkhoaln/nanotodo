@@ -79,7 +79,6 @@ const clickHandlerList = (e) => {
         const clickedTaskEle = e.target.parentElement;
         taskList.removeItem(clickedTaskEle.id);
         renderRemoveTask(clickedTaskEle);
-        console.log(taskList.items);
         if (taskList.items.length === 0) {
             throwMsg("Congrats! You've done all your task.");
         }
