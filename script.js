@@ -44,7 +44,7 @@ const renderNewTask = (newTask) => {
     span.textContent = `${newTask.getDesc()}`;
     const button = document.createElement("button");
     button.setAttribute("class", "task_delete");
-    button.textContent = "X";
+    button.textContent = "\u00D7"; // Cross mark for delete button
     li.append(span, button);
     ul.appendChild(li);
 };
