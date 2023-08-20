@@ -60,6 +60,8 @@ li {
     background-color: #eafff9;
     box-sizing: border-box;
     /* Keep width from increasing with padding */
+    overflow-y: auto;
+    scrollbar-gutter: stable;
 }
 
 .task-list {
