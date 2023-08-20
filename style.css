@@ -89,21 +89,21 @@ li {
 }
 
 .task_delete {
-    visibility: hidden;
-}
-.task:hover > .task_delete {
-    visibility: visible; 
-}
-.task_delete {
     font-size: 2em;
     font-weight: bolder;
     background-color: transparent;
     border: transparent;
+    visibility: hidden;
+    color: rgb(194, 194, 194);
+}
+
+.task:hover>.task_delete {
+    visibility: visible;
 }
 
 .task_delete:hover {
     cursor: pointer;
-    color: #ffffff;
+    color: black;
 }
 
 .task_content {
