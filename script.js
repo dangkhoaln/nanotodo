@@ -2,19 +2,11 @@
 
 const Task = (desc) => {
     const taskId = Date.now();
-    let isFinished = false;
     const getDesc = () => desc;
-    const getIsFinished = () => isFinished;
     const getTaskId = () => taskId;
-    const switchStatus = () => {
-        isFinished = !isFinished;
-    };
-
     return {
         getDesc,
-        getIsFinished,
         getTaskId,
-        switchStatus,
     };
 };
 
@@ -23,13 +15,20 @@ const TaskList = () => {
     const addItem = (item) => {
         items.push(item);
     };
-    const removeItem = (itemId) => {
-        const removeItemIndex = items.findIndex(
-            (item) => item.getTaskId() == itemId
-        );
-        items.splice(removeItemIndex, 1);
+    const getItem = (taskId) => {
+        return items.find(
+            (item) => item.getTaskId() == taskId
+        )
+    }
+    const getItemIndex = (taskId) => {
+        return items.findIndex(
+            (item) => item.getTaskId() == taskId
+        )
     };
-    return { items, addItem, removeItem };
+    const removeItem = (taskId) => {
+        items.splice(getItemIndex(taskId), 1);
+    };
+    return { items, addItem, getItem, getItemIndex, removeItem };
 };
 
 const taskList = TaskList();
@@ -37,12 +36,12 @@ const taskList = TaskList();
 const renderNewTask = (newTask) => {
     const ul = document.querySelector(".task-list");
     const li = document.createElement("li");
+    const span = document.createElement("div");
+    const button = document.createElement("button");
     li.setAttribute("id", `${newTask.getTaskId()}`);
     li.setAttribute("class", "task");
-    const span = document.createElement("div");
     span.setAttribute("class", "task_content");
     span.textContent = `${newTask.getDesc()}`;
-    const button = document.createElement("button");
     button.setAttribute("class", "task_delete");
     button.textContent = "\u00D7"; // Cross mark for delete button
     li.append(span, button);
@@ -63,27 +62,33 @@ const submitHandlerForm = (e) => {
     }
 };
 
+const clickHandlerList = (e) => {
+    const clickedEle = e.target;
+    if (clickedEle.classList.contains("task")) {
+        const taskId = clickedEle.id;
+        renderTaskStatus(clickedEle);
+    }
+    else if (clickedEle.classList.contains("task_content")) {
+        const taskId = clickedEle.parentElement.id;
+        renderTaskStatus(clickedEle.parentElement);
+    }
+    else {
+        const taskId = clickedEle.parentElement.id;
+        clickedEle.parentElement.remove();
+    }
+}
+
+const renderTaskStatus = (taskEle) => {
+    if (!taskEle.classList.contains("task--checked")) {
+        taskEle.classList.add("task--checked");
+    } else {
+        taskEle.classList.remove("task--checked");
+    }
+}
 const throwMsg = (msg) => {
     const input = document.querySelector(".task-input");
     input.setAttribute("placeholder", `${msg}`)
 }
-
-const renderRemoveTask = (clickedTaskEle) => {
-    clickedTaskEle.remove();
-};
-
-const clickHandlerList = (e) => {
-    if (e.target.tagName !== "BUTTON") {
-        return;
-    } else {
-        const clickedTaskEle = e.target.parentElement;
-        taskList.removeItem(clickedTaskEle.id);
-        renderRemoveTask(clickedTaskEle);
-        if (taskList.items.length === 0) {
-            throwMsg("Congrats! You've done all your task.");
-        }
-    }
-};
 
 const form = document.querySelector(".task-form");
 const list = document.querySelector(".task-list");

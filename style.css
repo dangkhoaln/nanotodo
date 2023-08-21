@@ -88,6 +88,15 @@ li {
     cursor: pointer;
 }
 
+.task--checked {
+    background-color: #dfdfdf;
+}
+
+.task--checked>.task_content {
+    color: grey;
+    text-decoration: line-through;
+}
+
 .task_delete {
     font-size: 2em;
     font-weight: bolder;
@@ -109,8 +118,4 @@ li {
 .task_content {
     flex-shrink: 1;
     word-break: break-word;
-}
-
-.task_content--done {
-    text-decoration: line-through;
 }
